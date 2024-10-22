@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:7.0.11-jammy
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+
+  app:
+    container_name: app
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/vibra
+      - JWT_SECRET=my_jwt_secret
+    depends_on:
+      - mongo
+    volumes:
+      - .:/node/app
+    working_dir: /node/app
+
+volumes:
+  mongo-data:

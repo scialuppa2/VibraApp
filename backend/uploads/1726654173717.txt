@@ -1,0 +1,22 @@
+INSERT INTO ProdottiCuraPersonale (Nome, Descrizione, Dettagli, Prezzo)
+VALUES
+('Shampoo Nutriente alla Cheratina', 'Uno shampoo che nutre e rinforza i capelli danneggiati, rendendoli morbidi e lucenti.', 'Con proteine della cheratina e olio di argan. Senza solfati.', 14.99),
+('Balsamo Ristrutturante', 'Un balsamo che ripara e idrata i capelli secchi e sfibrati, rendendoli più gestibili e setosi.', 'Arricchito con olio di cocco e pantenolo.', 12.99),
+('Olio per il Corpo Profumato', 'Un olio leggero e profumato che idrata la pelle lasciandola morbida e vellutata.', 'Con oli essenziali di rosa e vaniglia. Assorbe rapidamente.', 16.99),
+('Crema Mani Nutriente', 'Una crema ricca e non grassa che idrata e protegge le mani secche e screpolate.', 'Con burro di karitè e olio di jojoba. Assorbe rapidamente.', 9.99),
+('Deodorante Naturale senza Alluminio', 'Un deodorante delicato e efficace che neutralizza i cattivi odori senza irritare la pelle.', 'Senza alluminio e arricchito con oli essenziali di lavanda e tea tree.', 8.99),
+('Dentifricio Sbiancante', 'Un dentifricio che rimuove le macchie superficiali e protegge l''smalto dentale.', 'Con carbone attivo e bicarbonato di sodio. Senza fluoro.', 7.99),
+('Sapone Liquido Idratante', 'Un sapone liquido delicato e idratante per le mani e il corpo.', 'Arricchito con glicerina e estratti di aloe vera. Profumo fresco.', 6.99),
+('Gel Doccia Energizzante', 'Un gel doccia che deterge delicatamente la pelle e dona una piacevole sensazione di freschezza.', 'Con estratto di menta piperita e oli essenziali di agrumi.', 11.99),
+('Lozione Doposole Lenitiva', 'Una lozione doposole che lenisce e idrata la pelle dopo l''esposizione al sole.', 'Arricchita con aloe vera e camomilla. Texture leggera.', 13.99),
+('Crema Piedi Nutriente', 'Una crema ricca e lenitiva per i piedi secchi e affaticati.', 'Con burro di cacao e olio di menta. Assorbe rapidamente.', 10.99),
+('Balsamo Labbra Idratante', 'Un balsamo labbra che nutre e protegge dalle screpolature, lasciandole morbide e lisce.', 'Con burro di karitè e vitamina E. Senza profumo.', 5.99),
+('Maschera per Capelli Rigenerante', 'Una maschera intensiva che ripara e rigenera i capelli stressati e danneggiati.', 'Con proteine del grano e olio di cocco. Si applica dopo lo shampoo.', 18.99),
+('Crema Anticellulite Tonificante', 'Una crema che combatte la cellulite e rassoda i tessuti cutanei.', 'Arricchita con caffeina e estratti di centella asiatica. Massaggiare sulla pelle interessata.', 20.99),
+('Siero per Ciglia e Sopracciglia', 'Un siero che favorisce la crescita e rafforza ciglia e sopracciglia.', 'Con peptidi e biotina. Applicare sulla base delle ciglia e sulle sopracciglia.', 17.99),
+('Gel Idratante Intimo', 'Un gel delicato e lenitivo per l''igiene intima quotidiana.', 'Formulato con pH fisiologico e estratti di camomilla e calendula.', 9.99),
+('Crema Solare SPF 50', 'Una crema solare ad alta protezione che protegge la pelle dai danni dei raggi UV.', 'Resistente all''acqua e arricchita con vitamina E. Applicare prima dell''esposizione al sole.', 24.99),
+('Olio Essenziale di Lavanda', 'Un olio essenziale puro di lavanda, dalle proprietà rilassanti e lenitive.', 'Ideale per massaggi, diffusori e bagni aromatici.', 15.99),
+('Tonico Viso Rivitalizzante', 'Un tonico che tonifica e rivitalizza la pelle del viso, preparandola alla successiva idratazione.', 'Senza alcool e arricchito con estratti di rosa e cetriolo.', 11.99),
+('Bagnoschiuma Idratante', 'Un bagnoschiuma che deterge delicatamente la pelle, lasciandola morbida e idratata.', 'Con estratti di avena e miele. Profumo delicato.', 7.99),
+('Crema Esfoliante Corpo', 'Una crema esfoliante che rimuove le cellule morte e lascia la pelle liscia e luminosa.', 'Arricchita con granuli di zucchero e olio di mandorle dolci. Da usare sotto la doccia.', 13.99);

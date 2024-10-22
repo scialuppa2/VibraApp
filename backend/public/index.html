@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Test</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      #messages li {
+        padding: 12px;
+        margin-bottom: 2px;
+        border-radius: 5px;
+        max-width: 50%;
+      }
+      .message-left {
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
+        background-color: #97d9f8;
+      }
+      .message-right {
+        text-align: right;
+        margin-left: auto;
+        margin-right: 0;
+        background-color: #b8fa7e;
+      }
+      #messageForm {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+      }
+      #messageForm select,
+      #messageForm input,
+      #messageForm button {
+        margin-bottom: 5px;
+      }
+      #messageForm input {
+        padding: 10px;
+        margin-right: 5px;
+      }
+      #messageForm button {
+        padding: 10px;
+      }
+      img {
+        max-width: 150px;
+        max-height: 150px;
+        display: block;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vibra App</h1>
+    <ul id="messages"></ul>
+
+    <form id="messageForm">
+      <select id="userSelect"></select>
+      <input
+        id="messageInput"
+        autocomplete="off"
+        placeholder="Type your message here"
+      />
+      <input type="file" id="fileInput" />
+      <button>Send</button>
+    </form>
+
+    <script>
+      const socket = io();
+      const form = document.getElementById("messageForm");
+      const messageInput = document.getElementById("messageInput");
+      const fileInput = document.getElementById("fileInput");
+      const userSelect = document.getElementById("userSelect");
+      const messages = document.getElementById("messages");
+
+      const chatId = "66cd95d562ee709e9780f81a";
+      let currentUserId = null;
+
+      socket.emit("joinRoom", chatId);
+
+      function populateUserSelect(users) {
+        userSelect.innerHTML = "";
+        users.forEach((user) => {
+          const option = document.createElement("option");
+          option.value = user._id;
+          option.textContent = user.username;
+          userSelect.appendChild(option);
+        });
+
+        if (users.length > 0) {
+          currentUserId = users[0]._id;
+          loadMessages();
+        }
+      }
+
+      userSelect.addEventListener("change", (e) => {
+        currentUserId = e.target.value;
+        loadMessages();
+      });
+
+      function loadMessages() {
+        fetch(`/api/messages/${chatId}`)
+          .then((response) => response.json())
+          .then((messagesData) => {
+            messages.innerHTML = "";
+            messagesData.forEach((message) => {
+              const li = document.createElement("li");
+              li.className =
+                message.sender_id === currentUserId
+                  ? "message-right"
+                  : "message-left";
+              li.innerHTML = `<strong>${message.sender_username}:</strong> ${message.content}`;
+
+              if (message.file_url) {
+                const fileLink = document.createElement("a");
+                fileLink.href = message.file_url;
+                fileLink.textContent = `Download ${message.original_file_name}`;
+                fileLink.download = message.original_file_name;
+
+                if (message.file_url.match(/\.(jpg|jpeg|png|gif)$/)) {
+                  const img = document.createElement("img");
+                  img.src = message.file_url;
+                  img.alt = message.original_file_name;
+                  img.style.maxWidth = "150px";
+                  img.style.maxHeight = "150px";
+                  img.style.display = "block";
+                  img.style.marginBottom = "5px";
+                  li.appendChild(img);
+                }
+
+                li.appendChild(fileLink);
+              }
+
+              messages.appendChild(li);
+            });
+            messages.scrollTop = messages.scrollHeight;
+          })
+          .catch((error) => console.error("Error loading messages:", error));
+      }
+
+      fetch("/api/users")
+        .then((response) => response.json())
+        .then((users) => populateUserSelect(users))
+        .catch((error) => console.error("Error loading users:", error));
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const message = messageInput.value;
+        const file = fileInput.files[0];
+        const senderId = userSelect.value;
+
+        const formData = new FormData();
+        formData.append("content", message);
+        formData.append("chat_id", chatId);
+        formData.append("sender_id", senderId);
+
+        if (file) {
+          formData.append("file", file);
+        }
+
+        fetch("/api/messages", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            socket.emit("sendMessage", data);
+            messageInput.value = "";
+            fileInput.value = "";
+          })
+          .catch((error) => console.error("Error sending message:", error));
+      });
+
+      socket.on("newMessage", (message) => {
+        const li = document.createElement("li");
+        li.className =
+          message.sender_id === currentUserId
+            ? "message-right"
+            : "message-left";
+        li.innerHTML = `<strong>${message.sender_username}:</strong> ${message.content}`;
+
+        if (message.file_url) {
+          const fileLink = document.createElement("a");
+          fileLink.href = message.file_url;
+          fileLink.textContent = `Download ${message.original_file_name}`;
+          fileLink.download = message.original_file_name;
+
+          if (message.file_url.match(/\.(jpg|jpeg|png|gif)$/)) {
+            const img = document.createElement("img");
+            img.src = message.file_url;
+            img.alt = message.original_file_name;
+            img.style.maxWidth = "150px";
+            img.style.maxHeight = "150px";
+            img.style.display = "block";
+            img.style.marginBottom = "5px";
+            li.appendChild(img);
+          }
+
+          li.appendChild(fileLink);
+        }
+
+        messages.appendChild(li);
+        messages.scrollTop = messages.scrollHeight;
+      });
+    </script>
+  </body>
+</html>

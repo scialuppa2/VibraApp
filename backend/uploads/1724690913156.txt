@@ -1,0 +1,49 @@
+Componenti Redux:
+
+ReducerArtist: Gestisce lo stato relativo agli artisti, incluse le canzoni di un determinato artista.
+ReducerFavourites: Gestisce le canzoni preferite e quelle salvate tra i preferiti.
+ReducerMain: Gestisce lo stato principale con canzoni divise per generi musicali (rock, pop, hip-hop).
+ReducerPlayer: Gestisce lo stato relativo alla riproduzione della canzone corrente.
+ReducerSearch: Gestisce lo stato dei risultati di ricerca.
+Componenti React:
+
+AlbumCard: Rappresenta una card per visualizzare informazioni sull'album, l'artista e fornisce funzionalità come aggiungere ai preferiti e riprodurre la canzone.
+AlbumCardRow: Rappresenta una riga di card degli album, utilizzata per mostrare canzoni in diverse sezioni (rock, pop, hip-hop, ricerca).
+AlbumPage: Visualizza informazioni dettagliate su un album, inclusi i dettagli delle tracce.
+ArtistPage: Mostra informazioni su un artista, inclusi i dettagli delle canzoni dell'artista.
+Home: Componente principale che mostra le sezioni principali dell'applicazione, come i generi musicali principali e i risultati di ricerca.
+NavBar: Barra di navigazione superiore con link per le diverse sezioni.
+Player: Componente che visualizza il player audio con i controlli di riproduzione.
+PlayerArtist: Card per visualizzare le informazioni di una canzone in una pagina di un artista.
+SearchBar: Barra di ricerca che consente di cercare canzoni.
+SideBar: Barra laterale sinistra con link alle sezioni principali e al form di ricerca.
+YourLibrary: Mostra le canzoni preferite salvate dall'utente.
+File di Configurazione:
+
+App.js: Configura le rotte dell'applicazione utilizzando React Router. Include il layout principale con la barra laterale e il contenuto principale.
+index.js: Punto di ingresso dell'applicazione, collega il componente principale App al DOM e fornisce lo store Redux.
+Altre Caratteristiche:
+
+Utilizzo di Bootstrap per la progettazione responsiva e lo stile generale.
+La gestione dello stato è affidata a Redux per una gestione centralizzata dello stato dell'applicazione.
+
+
+- App
+  - BrowserRouter
+    - SideBar
+      - Navbar
+      - SearchBar
+    - Routes
+      - Home
+        - AlbumCardRow
+          - AlbumCard
+      - ArtistPage
+        - PlayerArtist
+      - AlbumPage
+        - AlbumCardRow
+          - AlbumCard
+      - YourLibrary
+        - AlbumCardRow
+          - AlbumCard
+    - Player
+      - (Componenti associati al player)

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test</title>
+  <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    div {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message-box {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WebSocket Test</h1>
+
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Enter your username">
+    </div>
+    <div>
+      <label for="userId">User ID:</label>
+      <input type="text" id="userId" placeholder="Enter your user ID">
+    </div>
+    
+    <hr>
+    
+    <div>
+      <label for="recipientUserId">Recipient User ID:</label>
+      <input type="text" id="recipientUserId" placeholder="Recipient User ID">
+    </div>
+    <div>
+      <label for="message">Message:</label>
+      <input type="text" id="message" placeholder="Message">
+    </div>
+    <button id="sendMessageButton">Send Private Message</button>
+
+    <div class="message-box" id="messageBox"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Imposta l'ID utente e il nome utente
+      const userIdInput = document.getElementById('userId');
+      const usernameInput = document.getElementById('username');
+      const recipientUserIdInput = document.getElementById('recipientUserId');
+      const messageInput = document.getElementById('message');
+      const sendMessageButton = document.getElementById('sendMessageButton');
+      const messageBox = document.getElementById('messageBox');
+
+      const socket = io('http://localhost:3000', {
+        query: { token: null }
+      });
+
+      // Imposta il nome utente e ID al server
+      socket.on('connect', () => {
+        const userId = userIdInput.value;
+        const username = usernameInput.value;
+        if (userId && username) {
+          socket.emit('set username', { username, userId });
+        } else {
+          alert('Please enter both username and user ID.');
+        }
+      });
+
+      sendMessageButton.addEventListener('click', () => {
+        const recipientUserId = recipientUserIdInput.value;
+        const message = messageInput.value;
+        if (recipientUserId && message) {
+          socket.emit('private message', { recipientUserId, message });
+        } else {
+          alert('Please enter both recipient user ID and message.');
+        }
+      });
+
+      socket.on('private message', (data) => {
+        messageBox.innerHTML += `<p>Received message: ${data.message} from user ID ${data.senderId}</p>`;
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+    });
+  </script>
+</body>
+</html>
