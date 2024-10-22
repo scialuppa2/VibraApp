@@ -5,3 +5,6 @@ Sviluppata utilizzando Flutter per il frontend e Node.js per il server, Vibra ut
 I dati vengono salvati in MongoDB, permettendo una gestione efficace delle informazioni degli utenti.
 
 <img src="images/ChatList.png" />
+<img src="images/ChatScreen.png" />
+<img src="images/GroupChatScreen.png" />
+<img src="images/NewGroupChat.png" />
